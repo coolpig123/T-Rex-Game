@@ -31,3 +31,9 @@ void player::jump(){
 void player::draw(){
     DrawRectangle(x,y,width,height,color);
 }
+void player::updateScore(){
+    if(highScore<score){
+        highScore = score;
+    }
+    score++;
+}

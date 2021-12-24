@@ -8,17 +8,30 @@ int main(void)
     int screenHeight = 450;
     player Player(0,400,400,50,50,false,WHITE);
     cactus Cactus(430,900,20,20,BLUE);
+    bool gameOver = false;
     InitWindow(screenWidth, screenHeight, "T-Rex-Game");
     SetTargetFPS(60);               
-    while (!WindowShouldClose()){  
-        
+    while (!WindowShouldClose()){
         BeginDrawing();
+        if(!gameOver){
             ClearBackground(BLACK);
             Player.draw();
             Cactus.draw();
+            Player.jump();
+            Player.updateScore();
+            if(Cactus.collision(Player.x,Player.y,Player.width,Player.height,screenWidth)){
+                gameOver = true;
+            }
+        }else{
+            ClearBackground(BLACK);
+            DrawText("Game Over!",screenWidth/2-100,screenHeight/2-20,50,WHITE);
+            DrawText("Press space to start over",screenWidth/2-100,screenHeight/2+40,20,WHITE);
+            DrawText("Press space to start over",screenWidth/2-100,screenHeight/2+40,20,WHITE);
+            if(IsKeyPressed(KEY_SPACE)){
+                gameOver = false;
+            }
+        }  
         EndDrawing();
-        Player.jump();
-        Cactus.collision(Player.x,Player.y,Player.width,Player.height,screenWidth);
     }
     CloseWindow();     
 }
