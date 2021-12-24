@@ -1,18 +1,24 @@
+
 #include "raylib.h"
+#include "../headers/player.h"
+#include "../headers/cactus.h"
 int main(void)
 {
-    const int screenWidth = 900;
-    const int screenHeight = 900;
-    InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
+    int screenWidth = 900;
+    int screenHeight = 450;
+    player Player(0,400,400,50,50,false,WHITE);
+    cactus Cactus(430,900,20,20,BLUE);
+    InitWindow(screenWidth, screenHeight, "T-Rex-Game");
     SetTargetFPS(60);               
     while (!WindowShouldClose()){  
+        
         BeginDrawing();
             ClearBackground(BLACK);
-            
+            Player.draw();
+            Cactus.draw();
         EndDrawing();
+        Player.jump();
+        Cactus.collision(Player.x,Player.y,Player.width,Player.height,screenWidth);
     }
     CloseWindow();     
-
-
-
 }
