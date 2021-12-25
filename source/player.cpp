@@ -9,13 +9,15 @@ player::player(float xC,float yC,float startingYC,int widthC,int heightC,bool is
     height  = heightC;
     isJump  = isJumpC;
     color  = colorC;
+    downHeight = height - 0.5*height;
+    initialHeight = height;
+    downY = startingY ;  //(initialHeight-downHeight) add this is you want to squeeze the player
 }
 void player::jump(){
-    if(!isJump && IsKeyDown(KEY_SPACE)){
+    if(!isJump && IsKeyDown(KEY_UP)){
         isJump = true;
         velocity = -20;
-        acceleration = 0.5;
-        
+        acceleration = 0.4;
     }else if(isJump){
         velocity += acceleration;
         velocity += acceleration;
@@ -27,9 +29,18 @@ void player::jump(){
         isJump = false;
     }
     
+    
 }
 void player::draw(){
     DrawRectangle(x,y,width,height,color);
+}
+void player::down(){
+    if(IsKeyDown(KEY_DOWN)){
+        //height = downHeight; add this is you want to squeeze the player
+        y = downY;
+    }else{
+        //height = initialHeight; add this is you want to squeeze the player
+    }
 }
 void player::updateScore(){
     if(highScore<score){

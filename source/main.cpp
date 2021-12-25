@@ -6,11 +6,14 @@ int main(void)
 {
     int screenWidth = 900;
     int screenHeight = 450;
+    int cactusVelocity = 4;
+    int fps = 60;
     player Player(50,400,400,50,50,false,WHITE);
     cactus Cactus(430,900,20,20,BLUE);
+    cactus CactusTwo(420,1200,40,30,GREEN);
     bool gameOver = false;
     InitWindow(screenWidth, screenHeight, "T-Rex-Game");
-    SetTargetFPS(60);               
+    SetTargetFPS(fps);               
     while (!WindowShouldClose()){
         BeginDrawing();
         if(!gameOver){
@@ -19,10 +22,17 @@ int main(void)
             DrawText(TextFormat("high score : %i", Player.highScore),0,20,20,WHITE);
             Player.draw();
             Cactus.draw();
+            CactusTwo.draw();
+            Cactus.move(cactusVelocity);
+            CactusTwo.move(cactusVelocity);
             Player.jump();
+            Player.down();
             Player.updateScore();
-            if(Cactus.collision(Player.x,Player.y,Player.width,Player.height,screenWidth)){
+            if(Cactus.collision(Player.x,Player.y,Player.width,Player.height,screenWidth) || CactusTwo.collision(Player.x,Player.y,Player.width,Player.height,screenWidth)){
                 gameOver = true;
+            }
+            if(Player.score % 500 == 0){
+                cactusVelocity+=1;
             }
         }else{
             ClearBackground(BLACK);
@@ -32,6 +42,9 @@ int main(void)
             if(IsKeyPressed(KEY_SPACE)){
                 gameOver = false;
                 Player.score = 0;
+                cactusVelocity = 4;
+                Cactus.x = Cactus.startingX;
+                CactusTwo.x = CactusTwo.startingX;
             }
         }  
         EndDrawing();

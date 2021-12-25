@@ -1,7 +1,5 @@
 #include "raylib.h"
 #include "../headers/cactus.h"
-#include <chrono>
-#include <thread>
 #include <iostream>
 using namespace std;
 cactus::cactus(float yC,float xC,float widthC,float heightC,Color colorC){
@@ -12,8 +10,8 @@ cactus::cactus(float yC,float xC,float widthC,float heightC,Color colorC){
     height = heightC;
     color = colorC;
 }
-void cactus::move(){
-    x-=4;
+void cactus::move(int velocity){
+    x-=velocity;
     if(x < 0-width){
         x = startingX;
     }
@@ -21,10 +19,8 @@ void cactus::move(){
 bool cactus::collision(float playerX, float playerY,int playerWidth,int playerHeight,int screenWidth){
     if(CheckCollisionRecs(Rectangle{x,y,(float)width,(float)height},Rectangle{playerX,playerY,(float)playerWidth,(float)playerHeight})){
         x = screenWidth;
-        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
         return true;
     }else{
-        move();
         return false;
     }
 }
